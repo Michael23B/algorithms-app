@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#222',
         borderRadius: 2,
-        shadowColor: '#000',
+        shadowColor: '#222',
         shadowOffset: {height: 2, width: 1},
-        shadowOpacity: 1,
-        padding: 2,
-        margin: 5
+        shadowOpacity: 0.2,
+        padding: 3,
+        margin: 10,
+        alignSelf: 'center',
+        width: '80%'
     }
 })
 
