@@ -26,7 +26,7 @@
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-fs": "^2.11.15",
-    "react-native-simple-markdown": "^1.1.0",
+    "react-native-syntax-highlighter": "^2.0.0",
     "react-navigation": "^2.11.2"
   }
 }

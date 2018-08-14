@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
-import { Card, CardItem, Text as TextBase, Body, Button } from "native-base";
+import { Text, View, StyleSheet } from 'react-native';
+import { Card, CardItem, Text as TextBase, Body } from "native-base";
 
 //Creates an array with headers as strings and question name/descriptions as objects
 function FormatText(text) {
@@ -28,6 +28,7 @@ function FormatText(text) {
 const FormattedList = (props) => {
     let formattedTextArr = FormatText(props.text || props.children);
     let { containerStyle, headerTextStyle, horizontalRule } = styles;
+
     return(
         <View style={containerStyle}>
             {formattedTextArr.map((line, iter) => {
@@ -37,7 +38,7 @@ const FormattedList = (props) => {
                         <Text style={headerTextStyle} key={line + iter}>{line}</Text>
                         <View key={'rule' + iter} style={horizontalRule}></View>
                     </View>
-                    : <CardWithHeaderBody headerText={line.name} key={line + iter}>{line.desc}</CardWithHeaderBody>
+                    : <CardWithHeaderBody navigation={props.navigation} headerText={line.name} key={line + iter}>{line.desc}</CardWithHeaderBody>
                 )
             })}
         </View>
@@ -46,7 +47,7 @@ const FormattedList = (props) => {
 
 const CardWithHeaderBody = (props) => (
     <Card>
-        <CardItem header bordered button onPress={() => console.log(props.headerText)}>
+        <CardItem header bordered button onPress={() => props.navigation.navigate('Question', {test123: 'test123'})}>
             <TextBase style={styles.nameTextStyle}>{props.headerText}</TextBase>
         </CardItem>
         <CardItem>
@@ -84,6 +85,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         marginBottom: 5
     }
-  });
+});
 
 export default FormattedList;

@@ -12,9 +12,11 @@ class List extends React.Component {
     }
 
     render() {
+        let { navigation } = this.props;
+
         return(
             <View style={styles.listStyle}>
-                <FormattedList>{this.state.readme}</FormattedList>
+                <FormattedList navigation={navigation}>{this.state.readme}</FormattedList>
             </View>
         )
     }
@@ -29,32 +31,3 @@ const styles = StyleSheet.create({
 })
 
 export default List;
-
-//TODO: need to strip markdown from readme file in order to use it properly
- 
-//import Markdown from 'react-native-simple-markdown'
-//import { Font } from "expo";
-//import axios from 'axios';
-//const Buffer = require('buffer/').Buffer;
-
-//This goes in the List class
-/*
-handleResponse(res) {
-    this.setState({
-        'readme': Buffer.from(res.data.content, "base64").toString('utf8')
-    })
-}
-
-async componentWillMount() {
-    //Fetch readme from github
-    axios.get('https://api.github.com/repos/Michael23B/Exercises-Algorithms-and-Data-Structures-in-C-Sharp/readme')
-        .then(res => this.handleResponse(res))
-        .catch(console.error)
-    
-    //Load fonts for Markdown
-    await Font.loadAsync({
-        Courier: require("../data/Courier.ttf")
-    });
-
-}
-*/

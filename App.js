@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import List from './src/components/List';
 import { createStackNavigator } from 'react-navigation';
+import Question from './src/components/Question.js'
 
 class Home extends React.Component {
   constructor(props) {
@@ -10,31 +11,19 @@ class Home extends React.Component {
       krappa: 'krappa123'
     }
   }
-//<Text onPress={() => this.props.navigation.navigate('Question')} style={textStyle}>{this.state.krappa}</Text>
+
   render() {
     let { appViewStyle, scrollViewStyle, textStyle } = styles;
+    let { navigation } = this.props;
+
     return (
       <View style={appViewStyle}>
         <ScrollView style={scrollViewStyle}>
-            <List/>
+            <Text onPress={() => this.props.navigation.navigate('Question')} style={textStyle}>{this.state.krappa}</Text>
+            <List navigation={navigation}/>
         </ScrollView>
       </View>
     );
-  }
-}
-
-class Question extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      blah: 'blah'
-    }
-  }
-
-  render() {
-    return(
-      <Text>{this.state.blah}</Text>
-    )
   }
 }
 
