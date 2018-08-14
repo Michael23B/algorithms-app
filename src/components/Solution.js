@@ -3,19 +3,31 @@ import { View, Text, ScrollView } from 'react-native';
 import { Content } from "native-base";
 import CodeBlock from './CodeBlock'
 
-const Solution = (props) => (
-    <ScrollView style={styles.scrollViewStyle}>
-        <Content padder>
-            <Text style={styles.headerTextStyle}>{props.navigation.getParam('category')}</Text>
-            <View style={styles.horizontalRule}></View>
-            <Text style={styles.questionTextStyle}>{props.navigation.getParam('question')}</Text>
+class Solution extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
+    static navigationOptions = {
+        title: 'Solution'
+    }
+
+    render() {
+        return(
+            <ScrollView style={styles.scrollViewStyle}>
+            <Content padder>
+                <Text style={styles.headerTextStyle}>{this.props.navigation.getParam('name')}</Text>
+                <View style={styles.horizontalRule}></View>
+            </Content>
+            
             <CodeBlock>
-                {props.navigation.getParam('solution')}
+                    {this.props.navigation.getParam('solution', 
+                    "The solution didn't load. Try pressing back and waiting a moment. Yes, I'm aware that's a terrble solution.")}
             </CodeBlock>
-        </Content>
-    </ScrollView>
-)
+        </ScrollView>
+        )
+    }
+}
 
 const styles = {
     scrollViewStyle: {

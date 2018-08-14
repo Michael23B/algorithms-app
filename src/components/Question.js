@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, ScrollView, View } from 'react-native';
-import { Textarea, Content, Accordion, Button } from "native-base";
+import { Textarea, Content, Accordion, Button, Toast } from "native-base";
 import axios from 'axios';
 import PathMap from '../data/PathMap'
 const Buffer = require('buffer/').Buffer;
@@ -14,10 +14,24 @@ class Question extends React.Component {
             { title: "Hint 2", content: "Uh oh. Hints are not implemented yet." }
           ],
         question: props.navigation.getParam('question'),
+        name: props.navigation.getParam('name'),
         category: props.navigation.getParam('category'),
-        solution: "Solution couldn\'t be loaded... Please make sure you\'re connected to the internet!",
+        solution: "",
         path: PathMap[props.navigation.getParam('name')]
       }
+      this.handleSolutionPress = this.handleSolutionPress.bind(this);
+    }
+
+    static navigationOptions = {
+        title: 'Question'
+    }
+
+    handleSolutionPress() {
+        if (this.state.solution !== "") this.props.navigation.navigate('Solution', {...this.state});
+        else Toast.show({
+            text: "Solution loading! Try again in a moment.",
+            duration: 3000
+          });
     }
 
     handleResponse(res) {
@@ -27,25 +41,24 @@ class Question extends React.Component {
     }
     
     async componentWillMount() {
-        let path = PathMap[this.state.category];
+        if (this.state.solution != "") return; //Already have our solution
         //Fetch readme from github
-        //axios.get('https://api.github.com/repos/Michael23B/Exercises-Algorithms-and-Data-Structures-in-C-Sharp/contents/' + path)
-            //.then(res => this.handleResponse(res))
-            //.catch(console.error)
+        axios.get('https://api.github.com/repos/Michael23B/Exercises-Algorithms-and-Data-Structures-in-C-Sharp/contents/' + this.state.path)
+            .then(res => this.handleResponse(res))
+            .catch(() => this.state.solution = 'Solution couldn\'t be loaded... Please make sure you\'re connected to the internet!')
     }
   
     render() {
-    let { scrollStyle, headerTextStyle, questionTextStyle, horizontalRule } = styles;
+    let { scrollStyle, headerTextStyle, questionTextStyle, horizontalRule, buttonStyle } = styles;
     return(
         <ScrollView style={scrollStyle}>
             <Content padder>
-                <Text style={headerTextStyle}>{this.state.category}</Text>
+                <Text style={headerTextStyle}>{this.state.name}</Text>
                 <View style={horizontalRule}></View>
                 <Text style={questionTextStyle}>{this.state.question}</Text>
-                <Text style={questionTextStyle}>{this.state.path}</Text>
                 <Textarea style={{backgroundColor: '#fff'}} rowSpan={10} bordered placeholder={ this.props.navigation.getParam('test123', 'Write your code here!') } />
                 <Accordion dataArray={this.state.accordian}/>
-                <Button light onPress={() => this.props.navigation.navigate('Solution', {...this.state})}><Text>  View the solution  </Text></Button>
+                <Button style={buttonStyle} light onPress={this.handleSolutionPress}><Text>  View the solution  </Text></Button>
             </Content>
         </ScrollView>
       )
@@ -71,6 +84,10 @@ const styles = {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         margin: 5
+    },    
+    buttonStyle: {
+        alignSelf: 'center',
+        marginTop: 5
     }
 }
 

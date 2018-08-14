@@ -4,26 +4,26 @@ import List from './src/components/List';
 import { createStackNavigator } from 'react-navigation';
 import Question from './src/components/Question'
 import Solution from './src/components/Solution'
+import { YellowBox } from 'react-native';
+import { Root } from "native-base";
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      krappa: 'krappa123'
-    }
+  }
+
+  static navigationOptions = {
+    title: 'Home'
   }
 
   render() {
-    let { appViewStyle, scrollViewStyle, textStyle } = styles;
+    let {  scrollViewStyle } = styles;
     let { navigation } = this.props;
 
     return (
-      <View style={appViewStyle}>
         <ScrollView style={scrollViewStyle}>
-            <Text onPress={() => this.props.navigation.navigate('Question')} style={textStyle}>{this.state.krappa}</Text>
             <List navigation={navigation}/>
         </ScrollView>
-      </View>
     );
   }
 }
@@ -40,12 +40,8 @@ const RootStack = createStackNavigator(
 )
 
 const styles = StyleSheet.create({
-  appViewStyle: {
-    flex: 1
-  },
   scrollViewStyle: {
-    flex: 1,
-    zIndex: 1
+    flex: 1
   },
   textStyle: {
     fontSize: 20
@@ -56,7 +52,12 @@ const styles = StyleSheet.create({
 export default class App extends React.Component {
   render() {
     return(
-      <RootStack/>
+      <Root>
+        <RootStack/>
+      </Root>
     )
   }
 }
+
+//Syntax highlighter seems to cause some warnings, just disabling them for now
+YellowBox.ignoreWarnings(['Warning: Failed prop type']);
