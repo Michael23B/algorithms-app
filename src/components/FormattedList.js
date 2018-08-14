@@ -28,17 +28,18 @@ function FormatText(text) {
 const FormattedList = (props) => {
     let formattedTextArr = FormatText(props.text || props.children);
     let { containerStyle, headerTextStyle, horizontalRule } = styles;
-
+    let currentCategory = '';
     return(
         <View style={containerStyle}>
             {formattedTextArr.map((line, iter) => {
                 return(
                     typeof(line) === 'string'
                     ? <View key={'container' + iter}>
-                        <Text style={headerTextStyle} key={line + iter}>{line}</Text>
+                        <Text style={headerTextStyle} key={line + iter}>{currentCategory = line}</Text>
                         <View key={'rule' + iter} style={horizontalRule}></View>
                     </View>
-                    : <CardWithHeaderBody navigation={props.navigation} headerText={line.name} key={line + iter}>{line.desc}</CardWithHeaderBody>
+                    : <CardWithHeaderBody navigation={props.navigation} category={currentCategory} 
+                    headerText={line.name} key={line + iter}>{line.desc}</CardWithHeaderBody>
                 )
             })}
         </View>
@@ -47,7 +48,8 @@ const FormattedList = (props) => {
 
 const CardWithHeaderBody = (props) => (
     <Card>
-        <CardItem header bordered button onPress={() => props.navigation.navigate('Question', {test123: 'test123'})}>
+        <CardItem header bordered button onPress={() => props.navigation.navigate('Question',
+         {question: props.children, category: props.category, name: props.headerText })}>
             <TextBase style={styles.nameTextStyle}>{props.headerText}</TextBase>
         </CardItem>
         <CardItem>

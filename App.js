@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native';
 import List from './src/components/List';
 import { createStackNavigator } from 'react-navigation';
-import Question from './src/components/Question.js'
+import Question from './src/components/Question'
+import Solution from './src/components/Solution'
 
 class Home extends React.Component {
   constructor(props) {
@@ -30,7 +31,8 @@ class Home extends React.Component {
 const RootStack = createStackNavigator(
   {
     Home: Home,
-    Question: Question
+    Question: Question,
+    Solution: Solution
   },
   {
     initialRouteName: 'Home',
