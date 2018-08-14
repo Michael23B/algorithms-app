@@ -1,37 +1,76 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableHighlight } from 'react-native';
+import { Card, CardItem, Text as TextBase, Body, Button } from "native-base";
 
-let i = 0;
-
+//Creates an array with headers as strings and question name/descriptions as objects
 function FormatText(text) {
-    return text.split('\n');
+    let lineArr = text.split('\n');
+
+    let formattedArr = [];
+    let lineObj = {name: '', desc: ''}
+
+    lineArr.forEach(line => {
+        if (line.startsWith('#')) formattedArr.push(line.slice(1)); //Push the header onto the array
+        else {
+            //Set the desc and push this object, then reset it.
+            if (lineObj.name !== '') {
+                lineObj.desc = line;
+                formattedArr.push(lineObj);
+                lineObj = {name: '', desc: ''};
+            }
+            else lineObj.name = line; //Set the name and wait for a desc to be added
+        }
+    });
+
+    return formattedArr;
 }
 
-//TODO: put this text in a box with some shadow
 const FormattedList = (props) => {
     let formattedTextArr = FormatText(props.text || props.children);
-    let { headerTextStyle, nameTextStyle, descriptionTextStyle } = styles;
+    let { containerStyle, headerTextStyle, horizontalRule } = styles;
     return(
-        <View>
+        <View style={containerStyle}>
             {formattedTextArr.map((line, iter) => {
                 return(
-                    line.startsWith('#')
-                    ? <Text style={headerTextStyle} key={line + iter}>{line.slice(i = 1)}</Text>
-                    : <Text style={i++ % 2 == 1 ? nameTextStyle : descriptionTextStyle} key={line + iter}>{line}</Text>
+                    typeof(line) === 'string'
+                    ? <View key={'container' + iter}>
+                        <Text style={headerTextStyle} key={line + iter}>{line}</Text>
+                        <View key={'rule' + iter} style={horizontalRule}></View>
+                    </View>
+                    : <CardWithHeaderBody headerText={line.name} key={line + iter}>{line.desc}</CardWithHeaderBody>
                 )
-                {//This code above is super unreadable and I should reformat it but its slick as though. :))
-                 //We increment i as we check because it will always be a name followed by a description.
-                 //Then we just reset it to 1 while we are slicing the heading text.
-                }
             })}
         </View>
     )
 }
 
+const CardWithHeaderBody = (props) => (
+    <Card>
+        <CardItem header bordered button onPress={() => console.log(props.headerText)}>
+            <TextBase style={styles.nameTextStyle}>{props.headerText}</TextBase>
+        </CardItem>
+        <CardItem>
+            <Body>
+                <TextBase style={styles.descriptionTextStyle}>
+                    {props.bodyText || props.children}
+                </TextBase>
+            </Body>
+        </CardItem>
+        
+    </Card>
+)
+
 const styles = StyleSheet.create({
+    containerStyle: {
+        flex: 1,
+        margin: 2
+      },
     headerTextStyle: {
-      fontSize: 20,
-      fontWeight: 'bold'
+      fontSize: 24,
+      fontWeight: 'bold',
+      alignSelf: 'center',
+      marginTop: 5
+
     },
     nameTextStyle: {
         fontSize: 18
@@ -39,6 +78,11 @@ const styles = StyleSheet.create({
     descriptionTextStyle: {
         fontSize: 14,
         color: '#444'
+    },
+    horizontalRule: {
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        marginBottom: 5
     }
   });
 

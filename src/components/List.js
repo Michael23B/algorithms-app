@@ -22,16 +22,9 @@ class List extends React.Component {
 
 const styles = StyleSheet.create({
     listStyle: {
-        borderWidth: 2,
-        borderColor: '#222',
-        borderRadius: 2,
-        shadowColor: '#222',
-        shadowOffset: {height: 2, width: 1},
-        shadowOpacity: 0.2,
         padding: 3,
         margin: 10,
-        alignSelf: 'center',
-        width: '80%'
+        alignSelf: 'center'
     }
 })
 

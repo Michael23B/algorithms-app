@@ -22,9 +22,11 @@
     "axios": "^0.18.0",
     "buffer": "^5.2.0",
     "expo": "^27.0.1",
+    "native-base": "^2.7.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
     "react-native-fs": "^2.11.15",
-    "react-native-simple-markdown": "^1.1.0"
+    "react-native-simple-markdown": "^1.1.0",
+    "react-navigation": "^2.11.2"
   }
 }
