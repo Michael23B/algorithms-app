@@ -2,7 +2,7 @@ import React from 'react'
 import { Text, ScrollView, View } from 'react-native';
 import { Textarea, Content, Accordion, Button, Toast } from "native-base";
 import axios from 'axios';
-import PathMap from '../data/PathMap'
+import GetPath from '../data/PathMap'
 const Buffer = require('buffer/').Buffer;
 
 class Question extends React.Component {
@@ -17,7 +17,8 @@ class Question extends React.Component {
         name: props.navigation.getParam('name'),
         category: props.navigation.getParam('category'),
         solution: "",
-        path: PathMap[props.navigation.getParam('name')]
+        path: GetPath(props.navigation.getParam('category'), props.navigation.getParam('name'))
+        //path: PathMap[props.navigation.getParam('name')]
       }
       this.handleSolutionPress = this.handleSolutionPress.bind(this);
     }
